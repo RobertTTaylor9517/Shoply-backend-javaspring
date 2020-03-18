@@ -2,10 +2,10 @@ package com.roberttaylor.shoply.dao;
 
 import java.util.UUID;
 
-import com.roberttaylor.shoply.entities.User;
+import com.roberttaylor.shoply.entities.Client;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserDAO extends CrudRepository<User, UUID> {
+public interface ClientDAO extends CrudRepository<Client, UUID> {
     
 }

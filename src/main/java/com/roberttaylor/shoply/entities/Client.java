@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-public class User extends EntityWithUUID {
+public class Client extends EntityWithUUID {
     private String username;
     private String password;
     private int wallet;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     Set<Review> review;
 
 }
