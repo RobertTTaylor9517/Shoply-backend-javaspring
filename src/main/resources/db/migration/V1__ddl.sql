@@ -28,7 +28,7 @@ CREATE TABLE review
     PRIMARY KEY (id)
 );
 ALTER TABLE review
-  ADD CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES client;
+  ADD CONSTRAINT fk_review_client FOREIGN KEY (client_id) REFERENCES client;
 
 ALTER TABLE review
-  ADD CONSTRAINT product_id FOREIGN KEY (product_id) REFERENCES product;
+  ADD CONSTRAINT fk_review_product FOREIGN KEY (product_id) REFERENCES product;

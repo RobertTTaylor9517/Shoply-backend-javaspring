@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import com.roberttaylor.shoply.entities.Review;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewDAO extends CrudRepository<Review, UUID> {
+public interface ReviewDAO extends JpaRepository<Review, UUID> {
     
 }
