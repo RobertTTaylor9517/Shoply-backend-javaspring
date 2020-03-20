@@ -1,6 +1,7 @@
 package com.roberttaylor.shoply.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.roberttaylor.shoply.dao.ProductDAO;
@@ -28,7 +29,12 @@ public class ProductController {
     }
     @GetMapping(path = "{id}")
     public Product getProductById(@PathVariable("id") UUID id){
-        return productDAO.getOne(id);
+        Optional<Product> product = productDAO.findById(id);
+        if (product.isPresent()){
+            return product.get();
+        } else {
+            return null;
+        }
     }
 
     @PostMapping
