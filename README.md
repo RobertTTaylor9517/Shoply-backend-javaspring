@@ -11,10 +11,10 @@ Springboot generated backend
 + Java 1.8
 + Spring Boot
 + Dependencies
-..* JPA
-..* PostgreSQL
-..* Lombok
-..* Flyway
+    * JPA
+    * PostgreSQL
+    * Lombok
+    * Flyway
 
 
 
