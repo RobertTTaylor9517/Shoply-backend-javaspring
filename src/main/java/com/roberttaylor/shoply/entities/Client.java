@@ -39,4 +39,8 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client")
     Set<Review> review;
 
+	// public void setToken(String token) {
+
+	// }
+
 }

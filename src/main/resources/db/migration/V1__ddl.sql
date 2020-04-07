@@ -3,7 +3,7 @@ CREATE TABLE client
 (
     id UUID,
     USERNAME   VARCHAR(30),
-    PASSWORD  VARCHAR(12),
+    PASSWORD  VARCHAR(300),
     wallet INT4,
     PRIMARY KEY (id)
 );
