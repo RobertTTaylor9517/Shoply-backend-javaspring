@@ -1,14 +1,20 @@
 package com.roberttaylor.shoply.entities;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name="client")
 @Data
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
@@ -36,8 +43,19 @@ public class Client implements Serializable {
     private String password;
     private int wallet;
 
-    @OneToMany(mappedBy = "client")
-    Set<Review> review;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "client")
+    private List<Review> reviews;
+
+    public void addReview(final Review review){
+        if (reviews == null) {
+            reviews = new ArrayList<>();
+        }
+
+        reviews.add(review);
+
+        review.setClient(this);
+    }
 
 	// public void setToken(String token) {
 

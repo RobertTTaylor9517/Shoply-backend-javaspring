@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +24,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Table(name="review")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
+// @JsonIdentityInfo(
+//     generator = ObjectIdGenerators.StringIdGenerator.class,
+//     property = "review_id"
+// )
 public class Review implements Serializable{
 
     @Id
@@ -35,13 +45,19 @@ public class Review implements Serializable{
     private String comment;
     private int rating;
 
-    @ManyToOne
-    // @MapsId("client_id")
-    @JoinColumn(name = "client_id")
-    Client client;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("client_id")
+    @JoinColumn(name = "client_id", nullable = false)
+    // @JsonIgnore
+    // Client client;
+    private Client client;
 
-    @ManyToOne
-    // @MapsId("product_id")
-    @JoinColumn(name = "product_id")
-    Product product;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("product_id")
+    @JoinColumn(name = "product_id", nullable = false)
+    // @JsonIgnore
+    // Product product;
+    private Product product;
 }
