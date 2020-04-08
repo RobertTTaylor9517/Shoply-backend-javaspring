@@ -10,10 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="review")
+// @Table(name="review")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
 // @JsonIdentityInfo(
@@ -45,19 +43,19 @@ public class Review implements Serializable{
     private String comment;
     private int rating;
 
-    @JsonBackReference
+    // @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("client_id")
+    // @MapsId("client_id")
     @JoinColumn(name = "client_id", nullable = false)
-    // @JsonIgnore
+    @JsonIgnore
     // Client client;
     private Client client;
 
-    @JsonBackReference
+    // @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("product_id")
+    // @MapsId("product_id")
     @JoinColumn(name = "product_id", nullable = false)
-    // @JsonIgnore
+    @JsonIgnore
     // Product product;
     private Product product;
 }

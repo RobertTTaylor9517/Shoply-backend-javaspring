@@ -65,10 +65,13 @@ public class ReviewController {
         Client client = clientDAO.getOne(client_id);
         review.setClient(client);
 
+
         Product product = productDAO.getOne(product_id);
         review.setProduct(product);
 
-        return reviewDAO.save(review);
+        Review newReview = reviewDAO.save(review);
+
+        return newReview;
     }
     @DeleteMapping(path = "{id}")
     public void deleteReview(@PathVariable("id") UUID id) {
