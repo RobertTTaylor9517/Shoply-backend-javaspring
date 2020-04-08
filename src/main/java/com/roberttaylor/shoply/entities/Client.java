@@ -57,8 +57,4 @@ public class Client implements Serializable {
         review.setClient(this);
     }
 
-	// public void setToken(String token) {
-
-	// }
-
 }

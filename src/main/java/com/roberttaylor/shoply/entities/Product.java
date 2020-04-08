@@ -1,7 +1,8 @@
 package com.roberttaylor.shoply.entities;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +28,6 @@ import lombok.NoArgsConstructor;
 // @Table(name = "product")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-// @JsonIdentityInfo(
-//     generator = ObjectIdGenerators.StringIdGenerator.class,
-//     property = "product_id"
-// )
 public class Product implements Serializable{
 
     @Id
@@ -47,18 +46,18 @@ public class Product implements Serializable{
     private String img;
     private int rating;
     
-    // @JsonManagedReference
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
-    private Set<Review> reviews;
+    private List<Review> reviews;
 
-    // public void addReview(final Review review){
-    //     if (reviews == null) {
-    //         reviews = new ArrayList<>();
-    //     }
+    public void addReview(final Review review){
+        if (reviews == null) {
+            reviews = new ArrayList<>();
+        }
 
-    //     reviews.add(review);
+        reviews.add(review);
 
-    //     review.setProduct(this);
-    // }
+        review.setProduct(this);
+    }
 
 }
