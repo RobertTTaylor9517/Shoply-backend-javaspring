@@ -1,17 +1,21 @@
 package com.roberttaylor.shoply.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.roberttaylor.shoply.dao.ClientDAO;
 import com.roberttaylor.shoply.entities.Client;
+import com.roberttaylor.shoply.entities.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +33,10 @@ public class ClientController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("signup")
-    public String addClient(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("wallet") int wallet) {
+    public HashMap<String, Object> addClient(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("wallet") int wallet) {
+
+        HashMap<String, Object> map = new HashMap<>();
+
         Client client = new Client();
 
         client.setUsername(username);
@@ -39,20 +46,34 @@ public class ClientController {
         Client newClient = clientDAO.save(client);
         String token = getJWTToken(newClient.getUsername());
 
+        map.put("token", token);
+        map.put("user_id", newClient.getId());
+
 
         // newClient.setToken(token);
-        return token;
+        return map;
     }
     
     @PostMapping("login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String pwd){
+    public HashMap<String, Object> login(@RequestParam("username") String username, @RequestParam("password") String pwd){
+
+        HashMap<String, Object> map = new HashMap<>();
 
         Client client = clientDAO.findByUsername(username);
-        if(passwordEncoder.matches(pwd, client.getPassword())){
-            String token = getJWTToken(client.getUsername());
-            return token;
+
+        if(client == null){
+            map.put("Error", "Username or Password not valid...");
+            return map;
         }else{
-            return "Username or Password not valid...";
+            if(passwordEncoder.matches(pwd, client.getPassword())){
+                String token = getJWTToken(client.getUsername());
+                map.put("token", token);
+                map.put("user_id", client.getId());
+                return map;
+            }else{
+                map.put("Error", "Username or Password not valid...");
+                return map;
+            }
         }
         
     }
@@ -60,6 +81,13 @@ public class ClientController {
     @GetMapping("user")
     public List<Client> clients(){
        return clientDAO.findAll();
+    }
+
+    @GetMapping(value = "/{id}/reviews")
+    public List<Review> user_reviews(@PathVariable UUID id){
+        Client client = clientDAO.getOne(id);
+
+        return client.getReviews();
     }
 
     private String getJWTToken(String username){
