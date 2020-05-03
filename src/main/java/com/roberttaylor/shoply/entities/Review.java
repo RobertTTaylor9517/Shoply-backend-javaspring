@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +27,7 @@ import lombok.NoArgsConstructor;
 //     generator = ObjectIdGenerators.StringIdGenerator.class,
 //     property = "review_id"
 // )
-public class Review implements Serializable{
+public class Review implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID",
@@ -47,7 +45,7 @@ public class Review implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // @MapsId("client_id")
     @JoinColumn(name = "client_id", nullable = false)
-    @JsonIgnore
+    // @JsonIgnore
     // Client client;
     private Client client;
 
@@ -55,7 +53,7 @@ public class Review implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // @MapsId("product_id")
     @JoinColumn(name = "product_id", nullable = false)
-    @JsonIgnore
+    // @JsonIgnore
     // Product product;
     private Product product;
 }

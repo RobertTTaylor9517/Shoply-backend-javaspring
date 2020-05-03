@@ -38,6 +38,7 @@ public class ReviewController {
     public List<Review> review(){
         return reviewDAO.findAll();
     }
+    
     @GetMapping(path = "{id}")
     public Review getReviewById(@PathVariable("id") UUID id){
         Optional<Review> review = reviewDAO.findById(id);
@@ -48,17 +49,12 @@ public class ReviewController {
         }
     }
 
-    // @PostMapping
-    // public Review addReview(@RequestBody Review review) {
-    //     Review savedReview = reviewDAO.save(review);
-    //     return savedReview;
-    // }
-
 
     @PostMapping
     public Review addReview(@RequestParam("comment") String comment, @RequestParam("rate") String rate, @RequestParam("client_id") UUID client_id, @RequestParam("product_id") UUID product_id){
         Review review = new Review();
         review.setComment(comment);
+
         int ratingNum = Integer.parseInt(rate);
         review.setRating(ratingNum);
 
@@ -73,6 +69,7 @@ public class ReviewController {
 
         return newReview;
     }
+
     @DeleteMapping(path = "{id}")
     public void deleteReview(@PathVariable("id") UUID id) {
         reviewDAO.deleteById(id);

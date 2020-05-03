@@ -50,7 +50,6 @@ public class ClientController {
         map.put("user_id", newClient.getId());
 
 
-        // newClient.setToken(token);
         return map;
     }
     

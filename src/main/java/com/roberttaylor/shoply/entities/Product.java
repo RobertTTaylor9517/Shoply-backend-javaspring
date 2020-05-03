@@ -13,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 // @Table(name = "product")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
-public class Product implements Serializable{
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID",
@@ -38,6 +38,7 @@ public class Product implements Serializable{
         strategy = "org.hibernate.id.UUIDGenerator"
     )
     private UUID id;
+    
 
     private String name;
     private int price;
@@ -46,8 +47,9 @@ public class Product implements Serializable{
     private String img;
     private int rating;
     
-    @JsonManagedReference
+    // @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnore
     private List<Review> reviews;
 
     public void addReview(final Review review){

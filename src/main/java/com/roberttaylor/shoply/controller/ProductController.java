@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.roberttaylor.shoply.dao.ProductDAO;
 import com.roberttaylor.shoply.entities.Product;
+import com.roberttaylor.shoply.entities.Review;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ public class ProductController {
     public List<Product> products(){
         return productDAO.findAll();
     }
+    
     @GetMapping(path = "{id}")
     public Product getProductById(@PathVariable("id") UUID id){
         Optional<Product> product = productDAO.findById(id);
@@ -35,6 +37,13 @@ public class ProductController {
         } else {
             return null;
         }
+    }
+
+    @GetMapping(value = "/{id}/reviews")
+    public List<Review> product_reviews(@PathVariable UUID id){
+        Product product = productDAO.getOne(id);
+
+        return product.getReviews();
     }
 
     @PostMapping
