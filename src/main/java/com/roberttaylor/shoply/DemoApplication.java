@@ -33,6 +33,7 @@ public class DemoApplication {
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers("/products").permitAll()
+				.antMatchers("/products/{id}").permitAll()
 				.antMatchers("/signup").permitAll()
 				.antMatchers(HttpMethod.GET, "/reviews").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
